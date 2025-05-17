@@ -16,10 +16,10 @@ spec:
     spec:
       containers:
         - name: flask
-          image: vulttur/flask-canary:latest  # depois vamos buildar e subir isso
+          image: vulttur/flask-canary:latest
           ports:
             - containerPort: 5000
-    strategy:
+  strategy:
     canary:
       steps:
         - setWeight: 20
@@ -30,4 +30,3 @@ spec:
         - setWeight: 60
         - pause: { duration: 30s }
         - setWeight: 100
-
