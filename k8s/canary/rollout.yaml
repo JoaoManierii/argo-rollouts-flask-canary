@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: flask-rollout
+  labels:
+    app: flask-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+        - name: flask
+          image: vulttur/flask-canary:latest  # depois vamos buildar e subir isso
+          ports:
+            - containerPort: 5000
+    strategy:
+    canary:
+      steps:
+        - setWeight: 20
+        - pause: { duration: 30s }
+        - analysis:
+            templates:
+              - templateName: flask-check
+        - setWeight: 60
+        - pause: { duration: 30s }
+        - setWeight: 100
+
