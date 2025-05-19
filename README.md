@@ -82,7 +82,7 @@ Acesse via navegador em: [http://localhost:5000](http://localhost:5000)
 kubectl argo rollouts dashboard
 
 Acesse em: [http://localhost:3100](http://localhost:3100)
-
+```
 ---
 
 ## 🧠 Conceitos Usados
