@@ -1,32 +1,35 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Rollout
+apiVersion: argoproj.io/v1alpha1  # Versão da API do Argo Rollouts
+kind: Rollout                     # Tipo de recurso: Rollout (substitui um Deployment)
 metadata:
-  name: flask-rollout
+  name: flask-rollout             # Nome do rollout
   labels:
-    app: flask-app
+    app: flask-app                # Label de identificação (usada no selector e em outros objetos)
+
 spec:
-  replicas: 3
+  replicas: 3                     # Número de réplicas desejadas
   selector:
     matchLabels:
-      app: flask-app
-  template:
+      app: flask-app              # Seleciona pods com essa label (como um Deployment faz)
+
+  template:                       # Template do pod (define como os pods serão criados)
     metadata:
       labels:
-        app: flask-app
+        app: flask-app            # Label aplicada aos pods gerados
     spec:
       containers:
-        - name: flask
-          image: vulttur/flask-canary:latest
+        - name: flask             # Nome do container dentro do pod
+          image: vulttur/flask-canary:latest  # Imagem usada (pode ser alterada nas versões novas)
           ports:
-            - containerPort: 5000
+            - containerPort: 5000 # Porta exposta pela aplicação Flask
+
   strategy:
-    canary:
-      steps:
-        - setWeight: 20
-        - pause: { duration: 30s }
-        - analysis:
+    canary:                       # Estratégia de rollout: Canary (versão progressiva)
+      steps:                      # Etapas do rollout
+        - setWeight: 20           # 1ª etapa: 20% do tráfego para nova versão
+        - pause: { duration: 30s } # Pausa de 30 segundos para observação
+        - analysis:               # Etapa de análise (simulada ou com provider real)
             templates:
-              - templateName: flask-check
-        - setWeight: 60
-        - pause: { duration: 30s }
-        - setWeight: 100
+              - templateName: flask-check  # Nome do AnalysisTemplate aplicado nesta etapa
+        - setWeight: 60           # 2ª etapa: 60% do tráfego vai pra nova versão
+        - pause: { duration: 30s } # Nova pausa de 30 segundos
+        - setWeight: 100          # Etapa final: 100% do tráfego migra para a nova versão
