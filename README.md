@@ -1,7 +1,7 @@
 # 🐙 Argo Rollouts + Flask + Canary Deployment
 
 Este repositório demonstra uma simulação de **Canary Deployment** utilizando:
-- 🐍 **Flask** para a API
+- 🐍 **Flask** para a API.
 - 🐳 **Docker** para containerizar
 - ☸️ **Kubernetes** com **Minikube** para orquestração local
 - 🚦 **Argo Rollouts** para gerenciar versões progressivas
