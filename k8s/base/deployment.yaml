@@ -1,21 +1,23 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps/v1                       # Versão da API do Kubernetes usada para Deployment
+kind: Deployment                          # Tipo de recurso: Deployment (gerencia pods e ReplicaSets)
 metadata:
-  name: flask-deployment
+  name: flask-deployment                  # Nome do Deployment
   labels:
-    app: flask-app
+    app: flask-app                        # Label para identificar o recurso
+
 spec:
-  replicas: 1
+  replicas: 1                             # Número desejado de réplicas (pods)
   selector:
     matchLabels:
-      app: flask-app
-  template:
+      app: flask-app                      # Seleciona os pods que têm esse label (deve bater com o template)
+
+  template:                               # Template que define os pods criados por esse deployment
     metadata:
       labels:
-        app: flask-app
+        app: flask-app                    # Label aplicada aos pods (deve bater com o selector acima)
     spec:
       containers:
-        - name: flask
-          image: vulttur/flask-canary:latest
+        - name: flask                     # Nome do container
+          image: vulttur/flask-canary:latest  # Imagem Docker usada para o container
           ports:
-            - containerPort: 5000
+            - containerPort: 5000         # Porta exposta pelo container (deve bater com o service)

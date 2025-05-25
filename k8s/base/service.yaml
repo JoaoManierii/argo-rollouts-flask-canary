@@ -1,11 +1,13 @@
-apiVersion: v1
-kind: Service
+apiVersion: v1                         # Versão da API para recursos do tipo Service
+kind: Service                          # Tipo do recurso: Service (exposição de pods)
 metadata:
-  name: flask-app
+  name: flask-app                      # Nome do Service (usado por Ingress, Rollout, etc)
+
 spec:
   selector:
-    app: flask-app
+    app: flask-app                     # Seleciona os pods que possuem essa label (deve bater com o Deployment/Rollout)
+
   ports:
-    - protocol: TCP
-      port: 5000          # Porta exposta pelo service
-      targetPort: 5000    # Porta usada no container Flask
+    - protocol: TCP                    # Protocolo utilizado (TCP é padrão para HTTP)
+      port: 5000                       # Porta exposta pelo Service dentro do cluster
+      targetPort: 5000                 # Porta do container Flask que o tráfego será redirecionado

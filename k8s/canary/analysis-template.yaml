@@ -1,13 +1,14 @@
-apiVersion: argoproj.io/v1alpha1
-kind: AnalysisTemplate
+apiVersion: argoproj.io/v1alpha1        # Versão da API do Argo Rollouts para templates de análise
+kind: AnalysisTemplate                  # Tipo do recurso: AnalysisTemplate (análises automáticas no rollout)
 metadata:
-  name: flask-check
+  name: flask-check                     # Nome do template (referenciado no rollout.yaml)
+
 spec:
   metrics:
-    - name: health-check
-      interval: 10s
-      successCondition: result == 200
+    - name: health-check                # Nome da métrica/checagem de saúde
+      interval: 10s                     # Intervalo entre cada execução da análise (a cada 10 segundos)
+      successCondition: result == 200   # Condição para considerar a análise como bem-sucedida (resposta HTTP 200)
       provider:
-        web:
-          url: http://flask-app/health
-          method: GET
+        web:                            # Tipo de provider: requisição HTTP simples
+          url: http://flask-app/health  # URL que será chamada (nome do service + endpoint)
+          method: GET                   # Método HTTP usado na requisição

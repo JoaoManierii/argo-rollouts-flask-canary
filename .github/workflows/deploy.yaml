@@ -1,30 +1,31 @@
-name: Build and Push Docker Image
+name: Build and Push Docker Image  # Nome da workflow que aparece no GitHub Actions
 
 on:
-  push:
-    branches: [main]
+  push:                            # Dispara essa pipeline quando ocorrer um push...
+    branches: [main]               # ...na branch main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build:                           # Nome do job principal
+
+    runs-on: ubuntu-latest         # Define que o job será executado em um runner Ubuntu mais recente
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - name: Checkout repo        # Etapa para clonar o repositório no runner
+        uses: actions/checkout@v3  # Usa a action oficial do GitHub para fazer o checkout do código
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+      - name: Set up Docker Buildx         # Etapa para habilitar o Docker Buildx (construção avançada de imagens)
+        uses: docker/setup-buildx-action@v2  # Action oficial para configurar o builder Buildx
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
+      - name: Login to Docker Hub         # Etapa para fazer login no Docker Hub
+        uses: docker/login-action@v2      # Action oficial de login no Docker
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          username: ${{ secrets.DOCKER_USERNAME }}  # Usa a secret com o usuário do Docker Hub
+          password: ${{ secrets.DOCKER_PASSWORD }}  # Usa a secret com a senha/token do Docker Hub
 
-      - name: Build and push image
-        uses: docker/build-push-action@v5
+      - name: Build and push image        # Etapa que faz build e push da imagem Docker
+        uses: docker/build-push-action@v5 # Action oficial para build/push da imagem com Buildx
         with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: vulttur/flask-canary:latest
+          context: .                      # Contexto da build (raiz do projeto)
+          file: ./Dockerfile              # Caminho do Dockerfile
+          push: true                      # Define que a imagem será enviada ao Docker Hub
+          tags: vulttur/flask-canary:latest  # Nome da imagem com tag que será enviada

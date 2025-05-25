@@ -1,23 +1,24 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: networking.k8s.io/v1           # Versão da API do Kubernetes para Ingress
+kind: Ingress                              # Tipo do recurso: Ingress (exposição de serviços via HTTP/S)
 metadata:
-  name: flask-ingress
-  namespace: default
+  name: flask-ingress                      # Nome do recurso Ingress
+  namespace: default                       # Namespace onde o Ingress será criado
   annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    kubernetes.io/ingress.class: nginx     # Define que o controlador de Ingress usado será o NGINX
+    nginx.ingress.kubernetes.io/rewrite-target: /        # Reescreve a URL de entrada para a raiz ("/")
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP" # Define o protocolo usado para se comunicar com o serviço
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false" # Não força redirecionamento para HTTPS
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"       # Também desativa redirecionamento automático para HTTPS
+
 spec:
-  rules:
-    - host: flask-canary.local
+  rules:                                   # Regras de roteamento HTTP
+    - host: flask-canary.local             # Host acessado no navegador
       http:
         paths:
-          - path: /
-            pathType: Prefix
+          - path: /                        # Caminho que será interceptado
+            pathType: Prefix               # Tipo de path (Prefix = qualquer coisa que comece com "/")
             backend:
               service:
-                name: flask-app
+                name: flask-app            # Nome do service Kubernetes que receberá as requisições
                 port:
-                  number: 5000
+                  number: 5000             # Porta interna exposta pelo serviço
