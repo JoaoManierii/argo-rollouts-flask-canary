@@ -6,7 +6,7 @@ metadata:
     app: flask-app                # Label de identificação (usada no selector e em outros objetos)
 
 spec:
-  replicas: 3                     # Número de réplicas desejadas
+  replicas: 3                     # Número de réplicas desejadas.
   selector:
     matchLabels:
       app: flask-app              # Seleciona pods com essa label (como um Deployment faz)
