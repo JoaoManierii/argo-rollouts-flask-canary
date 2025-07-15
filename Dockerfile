@@ -7,7 +7,7 @@ WORKDIR /app
 # Copia os arquivos da pasta local "app/" para dentro da imagem
 COPY app/ ./app/
 
-# Copia o arquivo de dependências
+# Copia o arquivo de dependências.
 COPY app/requirements.txt .
 
 # Instala as dependências da aplicação
